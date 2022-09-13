@@ -3,6 +3,7 @@
 <head>
     <meta charset='UTF-8'>
     <title>Thank You!</title>
+    <link rel='stylesheet' href='./../styles.css'>
 </head>
 
 <body>
@@ -16,10 +17,11 @@
 
     <table>
       <% if legislators.kind_of?(Array) %>
-        <th>Name</th><th>Website</th>
+        <th>Name</th><th>Phone Number</th><th>Website</th>
           <% legislators.each do |legislator| %>
           <tr>
             <td><%= "#{legislator.name}" %></td>
+            <td><%= "#{legislator.phones.join(' ')}" %></td>
             <td><%= "#{legislator.urls.join}" unless legislator.urls.nil? %></td>
           </tr>
           <% end %>

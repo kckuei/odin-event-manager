@@ -6,6 +6,17 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5, '0')[0..4]
 end
 
+def clean_phone_numbers(number)
+  number = number.gsub(/[^0-9]/, '')
+  if number.nil? || number.length < 10 || number.length > 11 || (number.length == 11 && number[0] != 1)
+    '-' * 10
+  elsif number.length == 11 && number[0] == 1
+    number[1..10]
+  else
+    number
+  end
+end
+
 def legislators_by_zipcode(zipcode)
   civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
   civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
@@ -34,12 +45,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_by_zipcode(zipcode)
+  phone = clean_phone_numbers(row[:homephone])
 
-  legislators.each do |legislator|
-    puts legislator.phones
-    puts legislator.party
-    puts legislator.photo_url
-    puts legislator.urls
-  end
+  puts phone
 end
